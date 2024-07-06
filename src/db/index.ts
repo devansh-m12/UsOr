@@ -9,7 +9,7 @@ dotenv.config({
 const connectDB = async () => {
   try {
 
-    const connectionString = process.env.MONGODB_URI;
+    const connectionString = `${process.env.MONGODB_URI}/${DB_NAME}`;
     if (!connectionString) {
       console.error("MONGODB_URI environment variable is not set");
       process.exit(1);
