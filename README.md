@@ -56,9 +56,19 @@ MONGO_URI=your_mongodb_connection_string
 
 Replace `your_mongodb_connection_string` with your actual MongoDB connection string.
 
-### API Endpoints
+## API Endpoints
 
-- **GET `/api/v1/status`**: To Check the Status of website.
+- **GET `/api/v1/status`**: Check the status of the website.
+
+### Authentication
+
+- **POST `/api/v1/auth/register`**: Register a new user.
+  - Request body parameters:
+    - `fullName` (string): Full name of the user.
+    - `email` (string): Email address of the user.
+    - `password` (string): Password for the user account.
+    - `avatar` (string, optional): URL or base64-encoded image for user avatar.
+
 
 ### Built With
 
@@ -73,7 +83,7 @@ Contributions are welcome! Please fork the repository and submit pull requests.
 
 ### Authors
 
-- Devansh - [Your GitHub Profile](https://github.com/devansh-m12)
+- Devansh - [devansh-m12](https://github.com/devansh-m12)
 
 ### License
 

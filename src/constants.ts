@@ -1,1 +1,1 @@
-export const DB_NAME="usor"
+export const DB_NAME="user"

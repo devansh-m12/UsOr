@@ -1,4 +1,5 @@
 import { Router } from "express";
+import authRouter from "./auth";
 
 const router = Router();
 
@@ -7,5 +8,7 @@ router.route("/status").get(
     res.send("yolo");
    }
 )
+
+router.use("/auth", authRouter);
 
 export default router;
