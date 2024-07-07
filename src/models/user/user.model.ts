@@ -2,14 +2,14 @@ import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
 import dotenv from "dotenv";
-import { IUser } from "../../types";
+import { IUser, IUserDocument } from "../../types";
 
 dotenv.config({
     path: "./.env"
 });
 
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUserDocument>({
     email: {
         type: String,
         unique: true,
@@ -36,7 +36,7 @@ const userSchema = new Schema({
     },
 }, { timestamps: true });
 
-userSchema.pre<IUser>("save", async function (next) {
+userSchema.pre<IUserDocument>("save", async function (next) {
     if (!this.isModified("password")) return next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
@@ -47,7 +47,7 @@ userSchema.methods.isPasswordCorrect = async function (this: IUser, password: st
     return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAccessToken = function (this: IUser) {
+userSchema.methods.generateAccessToken = function (this: IUserDocument) {
     const secret: string | undefined = process.env.ACCESS_TOKEN_SECRET;
     if (!secret) {
         throw new Error("ACCESS_TOKEN_SECRET is not defined in the environment variables.");
@@ -65,7 +65,7 @@ userSchema.methods.generateAccessToken = function (this: IUser) {
     );
 };
 
-userSchema.methods.generateRefreshToken = function (this: IUser) {
+userSchema.methods.generateRefreshToken = function (this: IUserDocument) {
     const secret: string | undefined = process.env.REFRESH_TOKEN_SECRET;
     if (!secret) {
         throw new Error("REFRESH_TOKEN_SECRET is not defined in the environment variables.");
@@ -81,4 +81,4 @@ userSchema.methods.generateRefreshToken = function (this: IUser) {
     );
 };
 
-export const User = mongoose.model<IUser>("User", userSchema);
+export const User = mongoose.model<IUserDocument>("User", userSchema);

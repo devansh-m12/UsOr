@@ -2,14 +2,14 @@ import { Request, Response } from 'express';
 import { Model } from 'mongoose'; 
 import { User } from '../../models'; 
 import { ApiError, ApiResponse, asyncHandler } from '../../utils';
-import {IUser} from '../../types'
+import {IUser, IUserDocument} from '../../types'
 
 
 class Auth {
-    private userModel: Model<IUser>;
+    private userModel: Model<IUserDocument>;
 
     constructor() {
-        this.userModel = User as Model<IUser>; 
+        this.userModel = User as Model<IUserDocument>; 
     }
 
     async generateAccessTokenAndRefreshToken(userId: string): Promise<{ accessToken: string, refreshToken: string }> {
@@ -56,7 +56,7 @@ class Auth {
         }
 
         // Create new user
-        const newUser: IUser = await this.userModel.create({
+        const newUser: IUserDocument = await this.userModel.create({
             fullName,
             avatar,
             email,
@@ -64,7 +64,7 @@ class Auth {
         });
 
         // Fetch newly created user details
-        const createdUser: IUser | null = await this.userModel.findById(newUser._id).select(
+        const createdUser: IUserDocument | null = await this.userModel.findById(newUser._id).select(
             "-password -refreshToken"
         ).exec();
 

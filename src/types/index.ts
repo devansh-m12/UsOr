@@ -1,7 +1,7 @@
 import {Document } from "mongoose";
 
 // Interface for User Document with custom methods
-export interface IUser extends Document {
+export interface IUser {
     email: string;
     fullName: string;
     avatar: string;
@@ -12,3 +12,15 @@ export interface IUser extends Document {
     generateAccessToken(): string;
     generateRefreshToken(): string;
 }
+
+export interface IUserDocument extends IUser, Document {}
+
+export interface IStartup {
+  name?: string;
+  description?: string;
+  url?: string;
+  isOpenSource?: boolean;
+  githubUrl?: string;
+}
+
+export interface IStartupDocument extends IStartup, Document {}
